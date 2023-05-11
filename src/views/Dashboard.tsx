@@ -2,8 +2,8 @@ import { Container, List, ListItem, Typography } from "@mui/material";
 import { WeatherButton } from "./WeatherButton";
 
 const weatcherLocations = [
-  { locationName: "Berlin", temperature: "10ºC" },
-  { locationName: "London", temperature: "15ºC" },
+  { locationName: "Berlin", location: { lat: 52.520008, lon: 13.404954 } },
+  { locationName: "London", location: { lat: 0, lon: 0 } },
 ];
 
 export const Dashboard = () => {
@@ -14,15 +14,15 @@ export const Dashboard = () => {
       </Typography>
       <List>
         <ListItem disableGutters>
-          <WeatherButton locationName="My location" temperature="22ºC" />
+          <WeatherButton
+            locationName="My location"
+            location={{ lat: 0, lon: 0 }}
+          />
         </ListItem>
-        {weatcherLocations.map(({ locationName, temperature }) => {
+        {weatcherLocations.map(({ locationName, location }) => {
           return (
             <ListItem key={locationName} disableGutters>
-              <WeatherButton
-                locationName={locationName}
-                temperature={temperature}
-              />
+              <WeatherButton locationName={locationName} location={location} />
             </ListItem>
           );
         })}

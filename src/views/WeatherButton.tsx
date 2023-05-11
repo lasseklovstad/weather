@@ -1,14 +1,34 @@
-import { ButtonBase, Typography } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  ButtonBase,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
+import { Location, useGetWeatherDetails } from "../api/weatherApi";
 
 type WeatherButtonProps = {
   locationName: string;
-  temperature: string;
+  location: Location;
 };
 
 export const WeatherButton = ({
   locationName,
-  temperature,
+  location,
 }: WeatherButtonProps) => {
+  const { data, error, isLoading } = useGetWeatherDetails(location);
+
+  if (error) {
+    return (
+      <Alert severity="error">
+        <AlertTitle>
+          Something went wrong while fetching weatcher data for {locationName}
+        </AlertTitle>
+        {error}
+      </Alert>
+    );
+  }
+
   return (
     <ButtonBase
       focusRipple
@@ -26,9 +46,12 @@ export const WeatherButton = ({
       <Typography variant="h4" component="div">
         {locationName}
       </Typography>
-      <Typography variant="h5" component="div">
-        {temperature}
-      </Typography>
+      {data && (
+        <Typography variant="h5" component="div">
+          {data?.current.temp}ºC
+        </Typography>
+      )}
+      {isLoading && <CircularProgress size={25} />}
     </ButtonBase>
   );
 };

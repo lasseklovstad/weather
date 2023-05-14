@@ -1,9 +1,14 @@
-import { Container, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
+import { SelectedWeatherLocation } from "../../types/weatherDetailTypes";
 import { WeatherLocationList } from "./components/WeatherLocationList";
 
-export const Dashboard = () => {
+type DashboardProps = {
+  onClick: (location: SelectedWeatherLocation) => void;
+};
+
+export const Dashboard = ({ onClick }: DashboardProps) => {
   return (
-    <Container component="main" maxWidth="sm" sx={{ my: 2 }}>
+    <>
       <Typography variant="h1" mb={2}>
         Dashboard
       </Typography>
@@ -18,7 +23,8 @@ export const Dashboard = () => {
             position: { lat: 51.509865, lon: -0.118092 },
           },
         ]}
+        onClick={onClick}
       />
-    </Container>
+    </>
   );
 };

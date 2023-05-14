@@ -1,15 +1,17 @@
 import { vi } from "vitest";
+import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import { Dashboard } from "./Dashboard";
 import { rest } from "msw";
-import { server } from "../tests/setup";
+import { server } from "../../tests/setup";
 import {
   generateWeatherDetails,
   generateWeatherDetailsCurrent,
-} from "../tests/generateTestData";
-import { Position } from "../types/positionTypes";
+} from "../../tests/generateTestData";
+import { Position } from "../../types/positionTypes";
 
 const renderComponent = () => {
+  const mockOnClick = vi.fn();
   mockGeolocation({ lon: 20, lat: 20 });
   server.use(
     rest.get(
@@ -40,12 +42,13 @@ const renderComponent = () => {
       }
     )
   );
-  render(<Dashboard />);
+  render(<Dashboard onClick={mockOnClick} />);
+  return { mockOnClick };
 };
 
 describe("Dashboard", () => {
-  it("should render My location, Berlin and London with correct tempertures", async () => {
-    renderComponent();
+  it("should render My location, Berlin and London with correct tempertures and My Location", async () => {
+    const { mockOnClick } = renderComponent();
     expect(screen.getAllByRole("listitem")).toHaveLength(3);
     const myLocationButton = await screen.findByRole("button", {
       name: /My location/,
@@ -53,9 +56,17 @@ describe("Dashboard", () => {
     const berlinButton = await screen.findByRole("button", { name: /Berlin/ });
     const londonButton = await screen.findByRole("button", { name: /London/ });
 
+    // Validate temperatures
     expect(myLocationButton).toHaveTextContent(/0/);
     expect(berlinButton).toHaveTextContent(/10/);
     expect(londonButton).toHaveTextContent(/10/);
+
+    // Click My Location
+    await userEvent.click(myLocationButton);
+    expect(mockOnClick).toHaveBeenCalledWith({
+      name: "My location",
+      weatherDetails: expect.anything(),
+    });
   });
 });
 

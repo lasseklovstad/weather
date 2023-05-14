@@ -24,4 +24,10 @@ export type WeatherDetails = {
   timezone: string;
   timezone_offset: number;
   current: WeatherDetailsCurrent;
+  hourly: { temp: number }[];
+};
+
+export type SelectedWeatherLocation = {
+  name: string;
+  weatherDetails: WeatherDetails;
 };

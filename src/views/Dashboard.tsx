@@ -1,10 +1,5 @@
-import { Container, List, ListItem, Typography } from "@mui/material";
-import { WeatherButton } from "./WeatherButton";
-
-const weatcherLocations = [
-  { locationName: "Berlin", location: { lat: 52.520008, lon: 13.404954 } },
-  { locationName: "London", location: { lat: 0, lon: 0 } },
-];
+import { Container, Typography } from "@mui/material";
+import { WeatherLocationList } from "./components/WeatherLocationList";
 
 export const Dashboard = () => {
   return (
@@ -12,21 +7,18 @@ export const Dashboard = () => {
       <Typography variant="h1" mb={2}>
         Dashboard
       </Typography>
-      <List>
-        <ListItem disableGutters>
-          <WeatherButton
-            locationName="My location"
-            location={{ lat: 0, lon: 0 }}
-          />
-        </ListItem>
-        {weatcherLocations.map(({ locationName, location }) => {
-          return (
-            <ListItem key={locationName} disableGutters>
-              <WeatherButton locationName={locationName} location={location} />
-            </ListItem>
-          );
-        })}
-      </List>
+      <WeatherLocationList
+        weatherLocations={[
+          {
+            name: "Berlin",
+            position: { lat: 52.520008, lon: 13.404954 },
+          },
+          {
+            name: "London",
+            position: { lat: 51.509865, lon: -0.118092 },
+          },
+        ]}
+      />
     </Container>
   );
 };

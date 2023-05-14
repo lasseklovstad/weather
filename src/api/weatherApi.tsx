@@ -1,40 +1,11 @@
 import { useEffect, useState } from "react";
-
-export type Location = {
-  lat: number;
-  lon: number;
-};
-
-export type WeatherDetails = {
-  lat: number;
-  lon: number;
-  timezone: string;
-  timezone_offset: number;
-  current: {
-    sunrise: number;
-    sunset: number;
-    temp: number;
-    feels_like: number;
-    pressure: number;
-    humidity: number;
-    dew_point: number;
-    uvi: number;
-    clouds: number;
-    visibility: number;
-    wind_speed: number;
-    wind_deg: number;
-    wind_gust: number;
-    weather: {
-      id: number;
-      main: string;
-    }[];
-  };
-};
+import { Position } from "../types/positionTypes";
+import { WeatherDetails } from "../types/weatherDetailTypes";
 
 export const getWeatherDetails = ({
   lat,
   lon,
-}: Location): Promise<WeatherDetails> => {
+}: Position): Promise<WeatherDetails> => {
   return fetch(
     `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&appid=${
       import.meta.env.VITE_WEATHER_API_KEY
@@ -48,7 +19,7 @@ export const getWeatherDetails = ({
   });
 };
 
-export const useGetWeatherDetails = ({ lat, lon }: Location) => {
+export const useGetWeatherDetails = ({ lat, lon }: Position) => {
   const [data, setData] = useState<WeatherDetails>();
   const [error, setError] = useState<string>();
 

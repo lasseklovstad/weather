@@ -6,8 +6,8 @@ import {
   Typography,
 } from "@mui/material";
 import { ReactElement } from "react";
-import { Position } from "../../types/positionTypes";
-import { useGetCurrentPosition } from "../../utils/useGetCurrentPosition";
+import { Position } from "../../../types/positionTypes";
+import { useGetCurrentPosition } from "../../../utils/useGetCurrentPosition";
 
 type GetCurrentPositionProps = {
   children: (position: Position) => ReactElement;

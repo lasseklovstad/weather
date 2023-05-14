@@ -5,19 +5,19 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
-import { convertTemperatureToCelcius } from "../../utils/temperatureUtils";
-import { WeatherDetails } from "../../types/weatherDetailTypes";
-import { useGetWeatherDetails } from "../../api/weatherApi";
-import { Position } from "../../types/positionTypes";
+import { useGetWeatherDetails } from "../../../api/weatherApi";
+import { Position } from "../../../types/positionTypes";
+import { SelectedWeatherLocation } from "../../../types/weatherDetailTypes";
+import { convertTemperatureToCelcius } from "../../../utils/temperatureUtils";
 
 type WeatherButtonProps = {
   name: string;
   position: Position;
-  onClick: (weatherDetails: WeatherDetails) => void;
+  onClick: (location: SelectedWeatherLocation) => void;
 };
 
 export const WeatherButton = ({
-  name: locationName,
+  name,
   position,
   onClick,
 }: WeatherButtonProps) => {
@@ -27,7 +27,7 @@ export const WeatherButton = ({
     return (
       <Alert severity="error">
         <AlertTitle>
-          Something went wrong while fetching weather data for {locationName}
+          Something went wrong while fetching weather data for {name}
         </AlertTitle>
         {error}
       </Alert>
@@ -47,10 +47,10 @@ export const WeatherButton = ({
         px: 4,
         whiteSpace: "nowrap",
       }}
-      onClick={() => data && onClick(data)}
+      onClick={() => data && onClick({ name, weatherDetails: data })}
     >
       <Typography variant="h4" component="div">
-        {locationName}
+        {name}
       </Typography>
       {data && (
         <Typography variant="h5" component="div">

@@ -2,7 +2,7 @@
 
 ## Getting started
 
-- Install Node LTS
+- Install Node LTS >=18
 - Install Git
 - Code editor of choice: VSCode
 
@@ -23,3 +23,7 @@ VITE_WEATHER_API_KEY="secret"
 ### Testing
 
 `npm run test`
+
+### Weather Api
+
+When creating a new api key at https://openweathermap.org/api it can take some minutes before it is active.

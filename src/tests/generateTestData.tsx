@@ -11,6 +11,7 @@ export const generateWeatherDetails = (
     lon: 0,
     timezone: "",
     timezone_offset: 0,
+    hourly: [],
     ...weatherDetails,
     current: generateWeatherDetailsCurrent(weatherDetails?.current),
   };

@@ -5,24 +5,29 @@ import {
   CircularProgress,
   Typography,
 } from "@mui/material";
-import { Location, useGetWeatherDetails } from "../api/weatherApi";
+import { convertTemperatureToCelcius } from "../../utils/temperatureUtils";
+import { WeatherDetails } from "../../types/weatherDetailTypes";
+import { useGetWeatherDetails } from "../../api/weatherApi";
+import { Position } from "../../types/positionTypes";
 
 type WeatherButtonProps = {
-  locationName: string;
-  location: Location;
+  name: string;
+  position: Position;
+  onClick: (weatherDetails: WeatherDetails) => void;
 };
 
 export const WeatherButton = ({
-  locationName,
-  location,
+  name: locationName,
+  position,
+  onClick,
 }: WeatherButtonProps) => {
-  const { data, error, isLoading } = useGetWeatherDetails(location);
+  const { data, error, isLoading } = useGetWeatherDetails(position);
 
   if (error) {
     return (
       <Alert severity="error">
         <AlertTitle>
-          Something went wrong while fetching weatcher data for {locationName}
+          Something went wrong while fetching weather data for {locationName}
         </AlertTitle>
         {error}
       </Alert>
@@ -42,13 +47,14 @@ export const WeatherButton = ({
         px: 4,
         whiteSpace: "nowrap",
       }}
+      onClick={() => data && onClick(data)}
     >
       <Typography variant="h4" component="div">
         {locationName}
       </Typography>
       {data && (
         <Typography variant="h5" component="div">
-          {data?.current.temp}ºC
+          {convertTemperatureToCelcius(data.current.temp)}ºC
         </Typography>
       )}
       {isLoading && <CircularProgress size={25} />}

@@ -69,6 +69,8 @@ export const SelectedWeatherLocationView = ({
 };
 
 const formatTime = (time: number) => {
-  const date = new Date(time);
+  // Time in seconds
+  const date = new Date(time * 1000);
+  console.log(date);
   return `${date.getHours()}:${date.getMinutes()}`;
 };
